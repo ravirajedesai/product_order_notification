@@ -5,6 +5,7 @@ import com.example.Order_service.dto.OrderEvent;
 import com.example.Order_service.dto.ProductDto;
 import com.example.Order_service.entity.Order;
 import com.example.Order_service.exceptions.OrderNotFound;
+import com.example.Order_service.exceptions.ProductNotFound;
 import com.example.Order_service.feign.ProductClient;
 import com.example.Order_service.kafka.KafkaProducer;
 import com.example.Order_service.repo.OrderRepo;
@@ -33,7 +34,10 @@ public class OrderServiceImpl implements OrderService{
                                     String sortDir) {
 
         List<String>fields=
-                List.of("orderId","orderName","ownerName","total");
+                List.of("orderId",
+                        "orderName",
+                        "ownerName",
+                        "total");
 
         if (!fields.contains(sortBy)){
             sortBy="ownerName";
@@ -64,7 +68,7 @@ public class OrderServiceImpl implements OrderService{
     public Order addOrder(Order order) {
         ProductDto byName = productClient.getByName(order.getProductName());
         if (byName==null){
-            throw new RuntimeException("Product Not Found: "+order.getProductName());
+            throw new ProductNotFound("Product Not Found: "+order.getProductName());
         }
         ProductDto reduceStock=productClient.reduceStock(
                                         byName.getProductName(),
@@ -75,6 +79,7 @@ public class OrderServiceImpl implements OrderService{
         order.setTotal(byName.getProductPrice()*order.getProductQuantity());
 
         Order savedorder=orderRepo.save(order);
+
         OrderDto dto=new OrderDto(
 
                 savedorder.getOrderId(),

@@ -21,4 +21,16 @@ public class GlobalOrderExceptionHandler {
 
         return new ResponseEntity<>(response,HttpStatus.NOT_FOUND);
     }
+    @ExceptionHandler(ProductNotFound.class)
+    public ResponseEntity<Map<String,Object>>
+    productGlobalExceptionHandler(ProductNotFound ex){
+
+        Map<String,Object> response=new HashMap<>();
+        response.put("TimeStamp", LocalDateTime.now());
+        response.put("status",HttpStatus.NOT_FOUND.value());
+        response.put("Error",HttpStatus.NOT_FOUND.name());
+        response.put("Message",ex.getMessage());
+
+        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+    }
 }

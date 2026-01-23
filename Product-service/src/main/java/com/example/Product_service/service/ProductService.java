@@ -6,17 +6,15 @@ import org.springframework.data.domain.Page;
 
 public interface ProductService {
     Page<Product> getAllProducts(
-            int pageNo,
-            int pageSize,
-            String sortBy,
-            String sortDir
+                                    int pageNo,
+                                    int pageSize,
+                                    String sortBy,
+                                    String sortDir
     );
     Product getProductById(Long id);
     void deleteProductById(Long id);
     Product addProducts(Product product);
 
     ProductDto getByName(String productName);
-
-    ProductDto reduceProductStock(String productName,
-                                      int productQuantity);
+    ProductDto reduceProductStock(String productName, int productQuantity);
 }

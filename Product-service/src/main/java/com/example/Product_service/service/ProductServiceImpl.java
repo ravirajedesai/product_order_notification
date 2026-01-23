@@ -25,9 +25,12 @@ public class ProductServiceImpl implements ProductService{
                                         String sortBy,
                                         String sortDir
                                         ) {
-        List<String> fields=List.of("productId","productName","productStock","productPrice");
+        List<String> fields=List.of("productId",
+                                    "productName",
+                                    "productStock",
+                                    "productPrice");
         if (!fields.contains(sortBy)){
-            sortBy="productId";
+            sortBy="productName";
         }
         Sort sort=sortDir.equalsIgnoreCase("ASC")
                 ?Sort.by(sortBy).ascending()
@@ -73,8 +76,11 @@ public class ProductServiceImpl implements ProductService{
 
         Product newproduct=productRepo.findByProductName(productName);
 
+        if (newproduct == null) {
+            throw new ProductNotFound("Product Not Found: " + productName);
+        }
         if (newproduct.getProductStock()<quantity){
-            throw new RuntimeException("Insufficient Product Stock");
+            throw new RuntimeException("Insufficient Product Stock"+quantity);
         }
         newproduct.setProductStock(newproduct.getProductStock()-quantity);
 

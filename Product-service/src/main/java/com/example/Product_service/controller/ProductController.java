@@ -17,10 +17,10 @@ public class ProductController {
 
     @GetMapping
     public ResponseEntity<Page<Product>>
-                getAllProducts(@RequestParam(defaultValue = "2") int pageNo,
-                               @RequestParam(defaultValue = "2") int pageSize,
-                               @RequestParam(defaultValue = "productName") String sortBy,
-                               @RequestParam(defaultValue = "ASC") String sortDir){
+        getAllProducts(@RequestParam(defaultValue = "2") int pageNo,
+                       @RequestParam(defaultValue = "2") int pageSize,
+                       @RequestParam(defaultValue = "productName") String sortBy,
+                       @RequestParam(defaultValue = "ASC") String sortDir){
         return ResponseEntity.ok(service.getAllProducts(pageNo,pageSize,sortBy,sortDir));
     }
     @GetMapping("/{id}")

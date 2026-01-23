@@ -14,20 +14,25 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class KafkaProducer {
-    private final static Logger LOGGER= LoggerFactory.getLogger(KafkaProducer.class);
+
+    private final static Logger LOGGER=
+            LoggerFactory.getLogger(KafkaProducer.class);
 
     @Value("${kafka.topic.product_email}")
     private String product_order;
 
-    private final KafkaTemplate<String , OrderEvent> kafkatemplate;
+    private final KafkaTemplate<String,OrderEvent> kafkatemplate;
 
     public void sentMessage(OrderEvent event){
+
         LOGGER.info("Order Created..{}",event);
+
         Message<OrderEvent> message=
                 MessageBuilder
                         .withPayload(event)
                         .setHeader(KafkaHeaders.TOPIC,product_order)
                         .build();
+
         kafkatemplate.send(message);
 
     }

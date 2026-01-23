@@ -14,7 +14,9 @@ public class KafkaConfig {
 
     @Bean
     public NewTopic topic(){
-        return TopicBuilder.name(product_order).build();
+        return TopicBuilder
+                .name(product_order)
+                .build();
 
     }
 }
