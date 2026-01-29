@@ -14,10 +14,13 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService{
 
     private final ProductRepo productRepo;
+
+    public ProductServiceImpl(ProductRepo productRepo) {
+        this.productRepo = productRepo;
+    }
 
     @Override
     public Page<Product> getAllProducts(int pageNo,
